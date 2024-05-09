@@ -5,7 +5,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import org.quarkusclub.convenios.dto.ClienteStstusResponse;
+import org.quarkusclub.convenios.dto.ClienteStatusResponse;
 
 import java.util.Collections;
 import java.util.UUID;
@@ -15,13 +15,14 @@ public interface ConveniadosResource extends PanacheEntityResource<ConveniadoEnt
     @GET
     @Path("/status/{idConveniado}")
     @Produces("application/json")
-    default ClienteStstusResponse findByName(@PathParam("idConveniado") UUID idConveniado) {
-        ConveniadoEntity conveniadoEntity  = ConveniadoEntity.find("idConveniado = :idConveniado", Collections.singletonMap("idConveniado", idConveniado)).singleResult();
+    default ClienteStatusResponse findByIdConveniado(@PathParam("idConveniado") UUID idConveniado) {
+        ConveniadoEntity conveniadoEntity  = ConveniadoEntity.find("idConveniado = :idConveniado", Collections.singletonMap("idConveniado", idConveniado)).firstResult();
         if(conveniadoEntity == null){
             return null;
         }
         ConvenioEntity convenioEntity = ConvenioEntity.findAll().firstResult();
-        ClienteStstusResponse clienteStstusResponse = new ClienteStstusResponse(conveniadoEntity.idConveniado, convenioEntity.idConvenio, conveniadoEntity.statusConveniado);
+        ClienteStatusResponse clienteStstusResponse = new ClienteStatusResponse(conveniadoEntity.idConveniado, convenioEntity.idConvenio, conveniadoEntity.statusConveniado);
         return clienteStstusResponse;
     }
+
 }

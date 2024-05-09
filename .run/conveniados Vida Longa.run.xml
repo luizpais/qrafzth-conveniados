@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="conveniados Vida Longa" type="QuarkusRunConfiguration" factoryName="QuarkusRunConfiguration">
+    <option name="env">
+      <map>
+        <entry key="database" value="dbVidaLonga" />
+        <entry key="porta" value="8082" />
+      </map>
+    </option>
+    <module name="conveniados" />
+    <option name="profile" />
+    <method v="2" />
+  </configuration>
+</component>
