@@ -1,0 +1,115 @@
+version: "3.5"
+
+services:
+  api01: &api
+    image: docker.io/luizpais/sis-consulta-conveniados-jvm:0.1.0
+    hostname: api01
+    environment:
+      - porta=8080
+      - database=dbBoaVida
+      - username=postgres
+      - password=changeme
+      - server_address=host.docker.internal:5432
+    ports:
+      - "8083:8080"
+    networks:
+      - sis-consulta
+
+    #    depends_on:
+#      db:
+#        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: "0.45"
+          memory: "200MB"
+
+  api02:
+    # Essa sintaxe reusa o que foi declarado em 'api01'.
+    <<: *api
+    hostname: api02
+    environment:
+      - porta=8080
+      - database=dbVidaLonga
+      - username=postgres
+      - password=changeme
+      - server_address=host.docker.internal:5432
+    ports:
+      - "8084:8080"
+  cadastro:
+    image: luizpais/sis-consulta-cadastro-jvm:0.1.0
+    depends_on:
+      - api01
+      - api02
+    environment:
+      - porta=8080
+      - database=sisconsulta
+      - username=postgres
+      - password=changeme
+      - server_address=host.docker.internal:5432
+      - vida_longa_url=http://api02:8080
+      - boa_vida_url=http://api01:8080
+    ports:
+      # Obrigatório expor/usar a porta 9999 no load balancer!
+      - "8081:8080"
+    networks:
+      - sis-consulta
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.20"
+          memory: "200MB"
+
+  agendamento:
+    image: luizpais/sis-consulta-agendamento-jvm:0.1.0
+    depends_on:
+      - api01
+      - api02
+    environment:
+      - porta=8080
+      - database=sisconsulta
+      - username=postgres
+      - password=changeme
+      - server_address=host.docker.internal:5432
+      - vida_longa_url=http://api02:8080
+      - boa_vida_url=http://api01:8080
+    ports:
+      # Obrigatório expor/usar a porta 9999 no load balancer!
+      - "8082:8080"
+    networks:
+      - sis-consulta
+    deploy:
+      resources:
+        limits:
+          cpus: "0.20"
+          memory: "200MB"
+
+#  db:
+#    image: postgres:latest
+#    hostname: db
+#    environment:
+#      - POSTGRES_PASSWORD=backend
+#      - POSTGRES_USER=rinha
+#      - POSTGRES_DB=dbrinha
+#    ports:
+#      - "5432:5432"
+#    #network_mode: host
+#    volumes:
+#      - ./sql/script.sql:/docker-entrypoint-initdb.d/script.sql
+#    command: postgres -c checkpoint_timeout=600 -c max_wal_size=4096 -c synchronous_commit=0 -c full_page_writes=0
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: "0.4"
+#          memory: "200MB"
+#    healthcheck:
+#      test: [ "CMD-SHELL", "pg_isready" ]
+#      interval: 5s
+#      timeout: 5s
+#      retries: 20
+#      start_period: 10s
+networks:
+  sis-consulta:
+    driver: bridge
+

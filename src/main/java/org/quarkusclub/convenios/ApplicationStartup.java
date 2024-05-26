@@ -11,8 +11,6 @@ public class ApplicationStartup {
     @ConfigProperty(name = "database")
     private String database;
 
-
-
     void onStart(@Observes StartupEvent ev) {
         System.out.println("A aplicação está subindo...");
         System.out.printf("Conectando no banco: %s\n", database);
