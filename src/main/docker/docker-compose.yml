@@ -9,7 +9,8 @@ services:
       - database=dbBoaVida
       - username=postgres
       - password=changeme
-      - server_address=host.docker.internal:5432
+      - server_address=db:5432
+      #- server_address=host.docker.internal:5432
     ports:
       - "8083:8080"
     networks:
@@ -33,7 +34,8 @@ services:
       - database=dbVidaLonga
       - username=postgres
       - password=changeme
-      - server_address=host.docker.internal:5432
+      - server_address=db:5432
+      #- server_address=host.docker.internal:5432
     ports:
       - "8084:8080"
   cadastro:
@@ -46,7 +48,7 @@ services:
       - database=sisconsulta
       - username=postgres
       - password=changeme
-      - server_address=host.docker.internal:5432
+      - server_address=db:5432
       - vida_longa_url=http://api02:8080
       - boa_vida_url=http://api01:8080
     ports:
@@ -71,7 +73,7 @@ services:
       - database=sisconsulta
       - username=postgres
       - password=changeme
-      - server_address=host.docker.internal:5432
+      - server_address=db:5432
       - vida_longa_url=http://api02:8080
       - boa_vida_url=http://api01:8080
     ports:
@@ -85,30 +87,29 @@ services:
           cpus: "0.20"
           memory: "200MB"
 
-#  db:
-#    image: postgres:latest
-#    hostname: db
-#    environment:
-#      - POSTGRES_PASSWORD=backend
-#      - POSTGRES_USER=rinha
-#      - POSTGRES_DB=dbrinha
-#    ports:
-#      - "5432:5432"
-#    #network_mode: host
-#    volumes:
-#      - ./sql/script.sql:/docker-entrypoint-initdb.d/script.sql
-#    command: postgres -c checkpoint_timeout=600 -c max_wal_size=4096 -c synchronous_commit=0 -c full_page_writes=0
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: "0.4"
-#          memory: "200MB"
-#    healthcheck:
-#      test: [ "CMD-SHELL", "pg_isready" ]
-#      interval: 5s
-#      timeout: 5s
-#      retries: 20
-#      start_period: 10s
+  db:
+    image: postgres:15-alpine
+    hostname: db
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=changeme
+      - POSTGRES_DB=postgres
+    ports:
+      - "5433:5432"
+    networks:
+      - sis-consulta
+    command: postgres -c checkpoint_timeout=600 -c max_wal_size=4096 -c synchronous_commit=0 -c full_page_writes=0
+    deploy:
+      resources:
+        limits:
+          cpus: "0.4"
+          memory: "200MB"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
 networks:
   sis-consulta:
     driver: bridge
