@@ -8,7 +8,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @ApplicationScoped
 public class ApplicationStartup {
 
-    @ConfigProperty(name = "database")
+    @ConfigProperty(name = "quarkus.datasource.jdbc.url")
     private String database;
 
     void onStart(@Observes StartupEvent ev) {

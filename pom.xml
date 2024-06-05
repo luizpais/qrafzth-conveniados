@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.quarkusclub</groupId>
     <artifactId>sis-consuta-conveniados</artifactId>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
 
     <properties>
         <compiler-plugin.version>3.12.1</compiler-plugin.version>

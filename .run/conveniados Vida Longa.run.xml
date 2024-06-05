@@ -2,8 +2,11 @@
   <configuration default="false" name="conveniados Vida Longa" type="QuarkusRunConfiguration" factoryName="QuarkusRunConfiguration">
     <option name="env">
       <map>
-        <entry key="database" value="dbVidaLonga" />
-        <entry key="porta" value="8082" />
+        <entry key="DATABASE_NAME" value="dbVidaLonga" />
+        <entry key="PASSWORD" value="changeme" />
+        <entry key="PORT" value="8082" />
+        <entry key="SERVER_ADDRESS" value="localhost:5432" />
+        <entry key="USER_NAME" value="postgres" />
       </map>
     </option>
     <module name="sis-consuta-conveniados" />

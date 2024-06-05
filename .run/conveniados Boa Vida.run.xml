@@ -2,8 +2,10 @@
   <configuration default="false" name="conveniados Boa Vida" type="QuarkusRunConfiguration" factoryName="QuarkusRunConfiguration">
     <option name="env">
       <map>
-        <entry key="database" value="dbBoaVida" />
-        <entry key="porta" value="8081" />
+        <entry key="DATABASE_NAME" value="dbBoaVida" />
+        <entry key="PASSWORD" value="changeme" />
+        <entry key="PORT" value="8081" />
+        <entry key="SERVER_ADDRESS" value="127.0.0.1" />
       </map>
     </option>
     <module name="sis-consuta-conveniados" />
