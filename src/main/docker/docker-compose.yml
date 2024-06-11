@@ -2,14 +2,14 @@ version: "3.5"
 
 services:
   api01: &api
-    image: docker.io/luizpais/sis-consulta-conveniados-jvm:0.1.0
+    image: docker.io/luizpais/sis-consulta-conveniados-jvm:0.3.0
     hostname: api01
     environment:
-      - porta=8080
-      - database=dbBoaVida
-      - username=postgres
-      - password=changeme
-      - server_address=db-boavida:5432
+      - PORT=8080
+      #- DATABASE=dbBoaVida
+      - USER_NAME=postgres
+      - PASSWORD=changeme
+      - SERVER_ADDRESS=db-boavida:5432
       #- server_address=host.docker.internal:5432
     ports:
       - "8083:8080"
@@ -26,16 +26,16 @@ services:
     <<: *api
     hostname: api02
     environment:
-      - porta=8080
-      - database=dbVidaLonga
-      - username=postgres
-      - password=changeme
-      - server_address=db-vidalonga:5432
+      - PORT=8080
+      #- database=dbVidaLonga
+      - USER_NAME=postgres
+      - PASSWORD=changeme
+      - SERVER_ADDRESS=db-vidalonga:5432
       #- server_address=host.docker.internal:5432
     ports:
       - "8084:8080"
   cadastro:
-    image: luizpais/sis-consulta-cadastro-jvm:0.1.0
+    image: luizpais/sis-consulta-cadastro-jvm:1.0.0
     depends_on:
       - api01
       - api02
@@ -59,7 +59,7 @@ services:
           memory: "200MB"
 
   agendamento:
-    image: luizpais/sis-consulta-agendamento-jvm:0.1.0
+    image: luizpais/sis-consulta-agendamento-jvm:1.0.0
     depends_on:
       - api01
       - api02
@@ -86,8 +86,8 @@ services:
     image: postgres:15-alpine
     hostname: db
     environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_USER=changeme
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=changeme
       - POSTGRES_DB=postgres
     ports:
       - "5433:5432"
@@ -109,8 +109,8 @@ services:
     image: postgres:15-alpine
     hostname: db
     environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_USER=changeme
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=changeme
       - POSTGRES_DB=postgres
     ports:
       - "5434:5432"
@@ -132,8 +132,8 @@ services:
     image: postgres:15-alpine
     hostname: db
     environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_USER=changeme
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=changeme
       - POSTGRES_DB=postgres
     ports:
       - "5435:5432"

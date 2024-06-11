@@ -2,10 +2,10 @@
   <configuration default="false" name="conveniados Vida Longa" type="QuarkusRunConfiguration" factoryName="QuarkusRunConfiguration">
     <option name="env">
       <map>
-        <entry key="DATABASE_NAME" value="dbVidaLonga" />
+        <entry key="DATABASE_NAME" value="postgres" />
         <entry key="PASSWORD" value="changeme" />
-        <entry key="PORT" value="8082" />
-        <entry key="SERVER_ADDRESS" value="localhost:5432" />
+        <entry key="PORT" value="8089" />
+        <entry key="SERVER_ADDRESS" value="localhost:5435" />
         <entry key="USER_NAME" value="postgres" />
       </map>
     </option>
